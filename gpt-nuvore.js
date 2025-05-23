@@ -1,8 +1,20 @@
 
 export default async function handler(req, res) {
+  // CORS-Header setzen
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // OPTIONS-Anfragen direkt beantworten (für Preflight)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // POST-Anfrage behandeln
   if (req.method !== 'POST') return res.status(405).end();
 
   const { message } = req.body;
+
 
   const systemPrompt = `Du bist Nuvoré AI – ein luxuriöser Duftberater. Sprich stilvoll, freundlich und hilf dem Nutzer, den passenden Duft aus folgenden Produkten zu finden:
 
